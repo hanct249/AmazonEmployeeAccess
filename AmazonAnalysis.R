@@ -17,5 +17,10 @@ ggplot(data=trainData, aes(x=ACTION, y=MGR_ID)) +
 
 amazonRecipe <- recipe(ACTION~., data=trainData) %>%
   step_mutate_at(all_predictors(), fn= factor) %>%
-  step_other(all_predictors(), threshold = .001)
+  step_other(all_predictors(), threshold = .001) %>%
   step_dummy(all_predictors())
+
+prepped <- prep(amazonRecipe)
+baked <- bake(prepped, new_data=trainData)
+  
+  
