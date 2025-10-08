@@ -10,5 +10,12 @@ library(skimr)
 trainData <- vroom("train.csv")
 testData <- vroom("test.csv")
 skim(trainData)
-ggplot(data=trainData +
-         geom_box(aes=(x=ACTION, fill=)))
+ggplot(data=trainData, aes(x=ACTION,y=RESOURCE)) +
+         geom_boxplot()
+ggplot(data=trainData, aes(x=ACTION, y=MGR_ID)) +
+  geom_boxplot()
+
+amazonRecipe <- recipe(ACTION~., data=trainData) %>%
+  step_mutate_at(all_predictors(), fn= factor) %>%
+  step_other(all_predictors(), threshold = .001)
+  step_dummy(all_predictors())
